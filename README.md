@@ -1,7 +1,7 @@
 # docker-okta-ldap
 Okta LDAP Agent in Docker
 
-## Configuration answers for configure_agent.sh
+## Configuration questions for configure_agent.sh
 
 1. Enter the base URL for your Okta organization (e.g. https://acme.okta.com): https://froot.okta.com
 2. Enter your LDAP server hostname: ldap.froot.io
