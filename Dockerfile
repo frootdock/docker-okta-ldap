@@ -26,7 +26,7 @@ RUN \
 	/var/lib/apt/lists/* \
 	/var/tmp/*
 
-RUN printf "---> CONFIG: ${OKTA_CONFIG}"
+RUN echo ${OKTA_CONFIG}
 
 RUN printf "${OKTA_CONFIG}" | /opt/Okta/OktaLDAPAgent/scripts/configure_agent.sh
 
