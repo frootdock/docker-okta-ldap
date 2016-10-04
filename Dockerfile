@@ -11,6 +11,8 @@ ENV OKTA_LDAP_USE_SSL n
 ENV OKTA_LDAP_PORT 50389
 ENV OKTA_ENABLE_PROXY n
 
+ARG OKTA_CONFIG "https://${OKTA_SUBDOMAIN}.okta.com\n${OKTA_LDAP_HOST}\n${OKTA_LDAP_ADMIN_DN}\n${OKTA_LDAP_ADMIN_PASSWORD}\n${OKTA_LDAP_BASE_DN}\n${OKTA_LDAP_USE_SSL}\n${OKTA_LDAP_PORT}\n${OKTA_ENABLE_PROXY}\n\n"
+
 # Install Okta LDAP Agent
 RUN \
  apt-get update && \
@@ -24,7 +26,8 @@ RUN \
 	/var/lib/apt/lists/* \
 	/var/tmp/*
 
-RUN printf "https://${OKTA_SUBDOMAIN}.okta.com\n${OKTA_LDAP_HOST}\n${OKTA_LDAP_ADMIN_DN}\n${OKTA_LDAP_ADMIN_PASSWORD}\n${OKTA_LDAP_BASE_DN}\n${OKTA_LDAP_USE_SSL}\n${OKTA_LDAP_PORT}\n${OKTA_ENABLE_PROXY}\n\n" \
-  | /opt/Okta/OktaLDAPAgent/scripts/configure_agent.sh
+RUN printf "---> CONFIG: ${OKTA_CONFIG}"
+
+RUN printf "${OKTA_CONFIG}" | /opt/Okta/OktaLDAPAgent/scripts/configure_agent.sh
 
 CMD service OktaLDAPAgent restart && tail -F /opt/Okta/OktaLDAPAgent/logs/stdout.log /opt/Okta/OktaLDAPAgent/logs/agent.log /opt/Okta/OktaLDAPAgent/logs/stderr.log
